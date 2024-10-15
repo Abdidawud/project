@@ -1,101 +1,147 @@
-import Image from "next/image";
+'use client';
+
+import { FifthIcon, UserIcon } from "@/components/icons";
+import { Pagination } from "@nextui-org/pagination";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
+import { useTheme } from "next-themes";
+import { useState } from "react";
+
+interface Reservation {
+  time: string;
+  name: string;
+  phone: string;
+  course: string;
+  birth_year: string;
+}
+
+const mockData = {
+  count: 20,
+  results: [
+    { time: "11:00", name: "홍길동", phone: "010-1111-2222", course: "77", birth_year: "개항장거리 - 차이나타운" },
+    { time: "12:00", name: "김철수", phone: "010-2222-3333", course: "5", birth_year: "개항장거리" },
+    { time: "13:00", name: "이영희", phone: "010-4444-5555", course: "3", birth_year: "해변 투어" },
+    { time: "14:00", name: "박지민", phone: "010-6666-7777", course: "4", birth_year: "문화재 탐방" },
+    { time: "15:00", name: "최민수", phone: "010-8888-9999", course: "2", birth_year: "도시 탐험" },
+    { time: "16:00", name: "안소영", phone: "010-1111-3333", course: "6", birth_year: "자연 산책" },
+    { time: "17:00", name: "이준호", phone: "010-2222-4444", course: "8", birth_year: "전통 시장 투어" },
+    { time: "18:00", name: "윤아", phone: "010-5555-6666", course: "12", birth_year: "미식 투어" },
+    { time: "11:00", name: "홍길동", phone: "010-1111-2222", course: "77", birth_year: "개항장거리 - 차이나타운" },
+    { time: "12:00", name: "김철수", phone: "010-2222-3333", course: "5", birth_year: "개항장거리" },
+    { time: "13:00", name: "이영희", phone: "010-4444-5555", course: "3", birth_year: "해변 투어" },
+    { time: "14:00", name: "박지민", phone: "010-6666-7777", course: "4", birth_year: "문화재 탐방" },
+    { time: "15:00", name: "최민수", phone: "010-8888-9999", course: "2", birth_year: "도시 탐험" },
+    { time: "16:00", name: "안소영", phone: "010-1111-3333", course: "6", birth_year: "자연 산책" },
+    { time: "17:00", name: "이준호", phone: "010-2222-4444", course: "8", birth_year: "전통 시장 투어" },
+    { time: "18:00", name: "윤아", phone: "010-5555-6666", course: "12", birth_year: "미식 투어" },
+    { time: "11:00", name: "홍길동", phone: "010-1111-2222", course: "77", birth_year: "개항장거리 - 차이나타운" },
+    { time: "12:00", name: "김철수", phone: "010-2222-3333", course: "5", birth_year: "개항장거리" },
+    { time: "13:00", name: "이영희", phone: "010-4444-5555", course: "3", birth_year: "해변 투어" },
+    { time: "14:00", name: "박지민", phone: "010-6666-7777", course: "4", birth_year: "문화재 탐방" },
+    { time: "15:00", name: "최민수", phone: "010-8888-9999", course: "2", birth_year: "도시 탐험" },
+    { time: "16:00", name: "안소영", phone: "010-1111-3333", course: "6", birth_year: "자연 산책" },
+    { time: "17:00", name: "이준호", phone: "010-2222-4444", course: "8", birth_year: "전통 시장 투어" },
+    { time: "18:00", name: "윤아", phone: "010-5555-6666", course: "12", birth_year: "미식 투어" },
+    // More entries can be added here
+  ] as Reservation[],
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(6);
+  const { theme, setTheme } = useTheme();
+  setTheme("light");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const pages = Math.ceil(mockData.count / rowsPerPage );
+  const startIndex = (page - 1) * rowsPerPage;
+  const paginatedData = mockData.results.slice(startIndex, startIndex + rowsPerPage);
+
+  return (
+    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 w-full">
+      <div className="flex gap-2 w-full justify-end">
+        <h1 className="text-[#A2ABAF]">관리자 님</h1>
+        <h1 className="bg-[#A2ABAF] px-3 rounded-md">로그아웃</h1>
+      </div>
+
+      <div className="grid grid-cols-3 gap-3 w-full px-3 mb-6">
+        <div className="flex w-full bg-white p-2 items-center justify-between gap-1 rounded-md">
+          <div className="flex items-center">
+            <UserIcon />
+            <p>신규 회원</p>
+          </div>
+          <p className="text-[#6D8EEB]">00명</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+        <div className="flex w-full bg-white p-2 items-center justify-between gap-1 rounded-md">
+          <div className="flex items-center">
+            <UserIcon />
+            <p>탈퇴 회원</p>
+          </div>
+          <p className="text-[#F46F6F]">00명</p>
+        </div>
+
+        <div className="flex w-full bg-white p-2 items-center justify-between gap-1 rounded-md">
+          <div className="flex items-center">
+            <FifthIcon />
+            <p>1:1문의 미답변</p>
+          </div>
+          <p className="text-[#424242]">00건</p>
+        </div>
+      </div>
+
+      <div className="w-full px-3">
+        <h1 className="text-center text-lg font-bold mb-4">8월 10일 예약현황</h1>
+        <Table
+          color="primary"
+          isStriped
+          fullWidth
+          aria-label="Example table with custom data pagination"
+          bottomContent={
+            pages > 0 ? (
+              <div className="flex w-full justify-center">
+                <Pagination
+                  isCompact
+                  showControls
+                  showShadow
+                  classNames={{
+                    // wrapper: "gap-0 overflow-visible h-8 rounded border border-divider",
+                    // item: "w-8 h-8 text-small rounded-none ",
+                    cursor:
+                      "bg-[#424242] text-white font-bold",
+                  }}
+                  page={page}
+                  total={pages}
+                  onChange={(page) => setPage(page)}
+                />
+              </div>
+            ) : null
+          }
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <TableHeader>
+            <TableColumn key="time">투어시간</TableColumn>
+            <TableColumn key="name">예약자명</TableColumn>
+            <TableColumn key="phone">휴대폰 번호</TableColumn>
+            <TableColumn key="course">투어인원</TableColumn>
+            <TableColumn key="birth_year">투어코스</TableColumn>
+          </TableHeader>
+          <TableBody
+            items={paginatedData}
+            loadingState={mockData.results.length === 0 ? "loading" : "idle"}
+          >
+            {(item: Reservation) => (
+              <TableRow key={item.name}>
+                {(columnKey: any) => (
+                  <TableCell>{item[columnKey as keyof Reservation]}</TableCell>
+                )}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+
+        {/* Dropdown for rows per page */}
+        <div className="flex justify-center mt-4">
+          <label htmlFor="rowsPerPage" className="mr-2">Rows per page:</label>
+        </div>
+      </div>
+    </section>
   );
 }
