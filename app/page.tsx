@@ -41,7 +41,6 @@ const mockData = {
     { time: "16:00", name: "안소영", phone: "010-1111-3333", course: "6", birth_year: "자연 산책" },
     { time: "17:00", name: "이준호", phone: "010-2222-4444", course: "8", birth_year: "전통 시장 투어" },
     { time: "18:00", name: "윤아", phone: "010-5555-6666", course: "12", birth_year: "미식 투어" },
-    // More entries can be added here
   ] as Reservation[],
 };
 
